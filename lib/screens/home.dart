@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import '../model/todo.dart';
 import '../constants/colors.dart';
 import '../widgets/lista_itens.dart';
@@ -37,7 +36,6 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Column(
                 children: [
-                  searchBox(),
                   Expanded(
                     child: ListView(
                       children: [
@@ -47,14 +45,14 @@ class _HomeState extends State<Home> {
                             bottom: 20,
                           ),
                           child: Text(
-                            'Afazeres',
+                            'Tarefas:',
                             style: TextStyle(
                                 fontSize: 30, fontWeight: FontWeight.w500),
                           ),
                         ),
-                        for (ToDo todoo in _foundToDo)
+                        for (ToDo todo in _foundToDo)
                           ItemsFazer(
-                            todo: todoo,
+                            todo: todo,
                             onToDoChanged: _handleToDoChange,
                             onDeleteItem: _deleteToDoItem,
                           )
@@ -88,7 +86,7 @@ class _HomeState extends State<Home> {
                       child: TextField(
                         controller: _todoController,
                         decoration: InputDecoration(
-                            hintText: 'Adicionar nova tarefa',
+                            hintText: 'Adicione suas tarefas',
                             border: InputBorder.none),
                       ),
                     ),
@@ -97,7 +95,7 @@ class _HomeState extends State<Home> {
                     margin: EdgeInsets.only(bottom: 20, right: 20),
                     child: ElevatedButton(
                       child: Text(
-                        '+',
+                        'Add',
                         style: TextStyle(
                           fontSize: 40,
                         ),
@@ -139,59 +137,13 @@ class _HomeState extends State<Home> {
     _todoController.clear();
   }
 
-  void _runFilter(String enteredkeyword) {
-    List<ToDo> results = [];
-    if (enteredkeyword.isEmpty) {
-      results = todosList;
-    } else {
-      results = todosList
-          .where((item) => item.todoText!
-              .toLowerCase()
-              .contains(enteredkeyword.toLowerCase()))
-          .toList();
-    }
-
-    setState(() {
-      _foundToDo = results;
-    });
-  }
-
-  Widget searchBox() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(20)),
-      child: TextField(
-        onChanged: (value) => _runFilter(value),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(0),
-          prefixIcon: Icon(
-            Icons.search,
-            color: black,
-            size: 20,
-          ),
-          prefixIconConstraints: BoxConstraints(
-            maxHeight: 20,
-            minWidth: 25,
-          ),
-          border: InputBorder.none,
-          hintText: 'Search',
-          hintStyle: TextStyle(color: grey),
-        ),
-      ),
-    );
-  }
-
   AppBar buildAppBar() {
     return AppBar(
       backgroundColor: white,
-      title: Row(children: [
-        Icon(Icons.menu, color: black, size: 30),
-        Container(
-          height: 40,
-          width: 40,
-        ),
-      ]),
+      title: Text('ToDo De Lucas'), 
+      centerTitle: true,
+      leading: null, 
     );
+    
   }
 }
